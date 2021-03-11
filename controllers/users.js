@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET, JWT_TTL } = require('../config/index');
 const User = require('../models/user');
 const {
   NotFound, BadRequest, Unauthorized, Conflict,
@@ -42,17 +43,17 @@ const updateUser = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const {
-    name, email, password,
+    name: bodyName, email: bodyEmail, password: bodyPassword,
   } = req.body;
-  User.findOne({ email })
+  User.findOne({ email: bodyEmail })
     .then((user) => {
       if (user) {
         throw new Conflict('Email уже используется');
       }
-      return bcrypt.hash(password, 10);
+      return bcrypt.hash(bodyPassword, 10);
     })
     .then((password) => User.create({
-      name, email, password,
+      bodyName, bodyEmail, password,
     }))
     .then(({ _id, name, email }) => {
       res.status(200).send({ _id, name, email });
@@ -67,7 +68,7 @@ const login = (req, res, next) => {
       if (!user) {
         throw new Unauthorized('Не правильный email или пароль');
       }
-      const token = jwt.sign({ _id: user._id }, 'secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: JWT_TTL });
       res.send({ token });
     })
     .catch(next);
