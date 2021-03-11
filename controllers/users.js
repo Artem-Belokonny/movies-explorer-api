@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET, JWT_TTL } = require('../config/index');
+const { secret, timeToLive } = require('../config/index');
 const User = require('../models/user');
 const {
   NotFound, BadRequest, Unauthorized, Conflict,
@@ -68,7 +68,7 @@ const login = (req, res, next) => {
       if (!user) {
         throw new Unauthorized('Не правильный email или пароль');
       }
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: JWT_TTL });
+      const token = jwt.sign({ _id: user._id }, secret, { expiresIn: timeToLive });
       res.send({ token });
     })
     .catch(next);
