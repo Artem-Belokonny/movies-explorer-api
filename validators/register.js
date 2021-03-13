@@ -9,14 +9,14 @@ const register = celebrate({
       }
       return helper.message('Недопустимый Email');
     }).messages({
-      'any.required': 'Обязательное поле',
+      'any.required': 'Не заполнено обязательное поле email',
     }),
     password: Joi.string().min(2).required().messages({
-      'any.required': 'Обязательное поле',
+      'any.required': 'Не заполнено обязательное поле password',
     }),
     name: Joi.string().min(2).max(30).required()
       .messages({
-        'any.required': 'Обязательное поле',
+        'any.required': 'Не заполнено обязательное поле name',
       }),
   },
 });

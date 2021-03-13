@@ -9,11 +9,11 @@ const userPatch = celebrate({
       }
       return helper.message('Недопустимый Email');
     }).messages({
-      'any.required': 'Обязательное поле',
+      'any.required': 'Не заполнено обязательное поле email',
     }),
     name: Joi.string().min(2).max(30).required()
       .messages({
-        'any.required': 'Обязательное поле',
+        'any.required': 'Не заполнено обязательное поле name',
       }),
   },
 });

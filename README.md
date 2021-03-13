@@ -9,5 +9,5 @@
 
 **Ссылка на сайт**
 
-URL: https://volorel-diploma.students.nomoredomains.monster/
+URL: https://api.volorel-diploma.students.nomoredomains.monster/
 Публичный IPv4: 130.193.53.149
