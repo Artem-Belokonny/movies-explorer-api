@@ -40,7 +40,7 @@ const createMovie = celebrate({
     nameRU: Joi.string().required().messages({
       'any.required': 'Неверно заполнено обязательное поле nameRU',
     }),
-    nameEN: Joi.string().required().messages({
+    nameEN: Joi.string().messages({
       'any.required': 'Неверно заполнено обязательное поле nameEN',
     }),
     thumbnail: Joi.string().required().custom((value, helper) => {
