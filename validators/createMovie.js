@@ -34,6 +34,9 @@ const createMovie = celebrate({
     }).messages({
       'any.required': 'Неверно указана ссылку на trailer',
     }),
+    movieId: Joi.number().required().messages({
+      'any.required': 'Неверно заполнено обязательное поле movieId',
+    }),
     nameRU: Joi.string().required().messages({
       'any.required': 'Неверно заполнено обязательное поле nameRU',
     }),
