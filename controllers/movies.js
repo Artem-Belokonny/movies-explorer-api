@@ -25,9 +25,9 @@ const createMovie = (req, res, next) => {
     thumbnail,
   } = req.body;
   const owner = req.user._id;
-  Movie.findOne({ movieId, owner })
-    .then((movie) => {
-      if (movie) {
+  Movie.findById(req.body.movieId)
+    .then((film) => {
+      if (film) {
         throw new BadRequest('Фильм уже добавлен в Сохраненные фильмы');
       } else {
         Movie.create({
@@ -44,7 +44,7 @@ const createMovie = (req, res, next) => {
           thumbnail,
           owner,
         })
-          .then((movieData) => res.send(movieData))
+          .then((movie) => res.send({ data: movie }))
           .catch((err) => {
             if (err.name === 'CastError') {
               const error = new BadRequest('Необходимо указать валидные данные');
