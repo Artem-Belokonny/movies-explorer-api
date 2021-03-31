@@ -28,7 +28,7 @@ const createMovie = (req, res, next) => {
   Movie.findOne({ movieId, owner })
   .then((movie) => {
     if (movie) {
-      throw new BadRequest('Данный фильм уже добавлен в Сохраненные фильмы');
+      throw new BadRequest('Фильм уже добавлен в Сохраненные фильмы');
     } else {
       Movie.create({
         country,
