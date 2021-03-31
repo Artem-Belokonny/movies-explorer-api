@@ -25,34 +25,27 @@ const createMovie = (req, res, next) => {
     thumbnail,
   } = req.body;
   const owner = req.user._id;
-  Movie.findOne({ movieId })
-    .then((film) => {
-      if (film) {
-        throw new BadRequest('Фильм уже добавлен в Сохраненные фильмы');
-      } else {
-        Movie.create({
-          country,
-          director,
-          duration,
-          year,
-          description,
-          image,
-          trailer,
-          movieId,
-          nameRU,
-          nameEN,
-          thumbnail,
-          owner,
-        })
-          .then((movie) => res.send({ data: movie }))
-          .catch((err) => {
-            if (err.name === 'CastError') {
-              const error = new BadRequest('Необходимо указать валидные данные');
-              return next(error);
-            }
-            return next(err);
-          });
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    movieId,
+    nameRU,
+    nameEN,
+    thumbnail,
+    owner,
+  })
+    .then((movie) => res.send({ data: movie }))
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        const error = new BadRequest('Необходимо указать валидные данные');
+        return next(error);
       }
+      return next(err);
     });
 };
 
