@@ -25,7 +25,7 @@ const createMovie = (req, res, next) => {
     thumbnail,
   } = req.body;
   const owner = req.user._id;
-  Movie.findById(req.params.movieId)
+  Movie.findById({ movieId, owner })
     .then((film) => {
       if (film) {
         throw new BadRequest('Фильм уже добавлен в Сохраненные фильмы');
