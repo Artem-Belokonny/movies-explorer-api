@@ -2,8 +2,7 @@ const Movie = require('../models/movie');
 const { NotFound, BadRequest, Forbidden } = require('../errors');
 
 const getMovies = (req, res, next) => {
-  const owner = req.user._id;
-  Movie.find({ owner })
+  Movie.find({})
     .then((movies) => {
       res.send(movies);
     })
