@@ -2,7 +2,8 @@ const Movie = require('../models/movie');
 const { NotFound, BadRequest, Forbidden } = require('../errors');
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((movies) => {
       res.send(movies);
     })
@@ -24,27 +25,34 @@ const createMovie = (req, res, next) => {
     thumbnail,
   } = req.body;
   const owner = req.user._id;
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    movieId,
-    nameRU,
-    nameEN,
-    thumbnail,
-    owner,
-  })
-    .then((movie) => res.send({ data: movie }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        const error = new BadRequest('Необходимо указать валидные данные');
-        return next(error);
+  Movie.findOne({ movieId })
+    .then((film) => {
+      if (film) {
+        throw new BadRequest('Фильм уже добавлен в Сохраненные фильмы');
+      } else {
+        Movie.create({
+          country,
+          director,
+          duration,
+          year,
+          description,
+          image,
+          trailer,
+          movieId,
+          nameRU,
+          nameEN,
+          thumbnail,
+          owner,
+        })
+          .then((movie) => res.send({ data: movie }))
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              const error = new BadRequest('Необходимо указать валидные данные');
+              return next(error);
+            }
+            return next(err);
+          });
       }
-      return next(err);
     });
 };
 
