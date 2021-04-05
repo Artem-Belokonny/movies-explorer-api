@@ -12,7 +12,7 @@ const getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFound('Нет такого пользователя');
       }
-      return res.status(200).send(user);
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -30,7 +30,7 @@ const updateUser = (req, res, next) => {
       if (!user) {
         throw new BadRequest('Произошла ошибка при отправке данных');
       }
-      return res.status(200).send(user);
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -56,7 +56,7 @@ const createUser = (req, res, next) => {
       name: bodyName, email: bodyEmail, bodyEmail, password,
     }))
     .then(({ _id, name, email }) => {
-      res.status(200).send({ _id, name, email });
+      res.send({ _id, name, email });
     })
     .catch(next);
 };
